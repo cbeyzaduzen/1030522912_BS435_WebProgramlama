@@ -1,92 +1,91 @@
-let ilkSecim = null;
-let oyunTamamlandi = true;
-let kediIndeks= 0;
+const sıra = [0, 1, 2];
 
-const indeks = [0, 1, 2];
+const kopekFoto = "img/Kopek.jpg";
+const kediFoto = "img/Kedi.jpg";
+const arkaKapakFoto = "img/ArkaKapak.png";
 
-const kopekImg = "img/Kopek.jpg";
-const kediImg = "img/Kedi.jpg";
-const arkaKapakImg = "img/ArkaKapak.png";
+let baslangic = null;
+let bitiş = true;
+let kediSıra = 0;
 
-function kartSec(index){
+function kedi(inx) {
+  const foto = document.getElementById("img" + inx);
+  foto.src = kediFoto;
+  foto.style.cursor = "default";
+}
 
-    if(oyunTamamlandi || index === ilkSecim){
-        return;
+function uyarıGoster() {
+  kartlarıGizle();
+  document.getElementById("alanId").style.display = "block";
+}
+
+function kopek(inx) {
+  const foto = document.getElementById("img" + inx);
+  foto.src = kopekFoto;
+  foto.style.cursor = "default";
+}
+
+function oyunuBitir(kazandi) {
+    bitiş = true;
+  for (let i = 0; i < sıra.length; i++) {
+    if (i === kediSıra) {
+      kedi(i);
+    } else {
+      kopek(i);
     }
-    if( kediIndeks === index ) {
-        kediGoster(index);
-        oyunuSonlandir(true);
+  }
+  if (kazandi) {
+    kazandin();
+  } else {
+    yenildin();
+  }
+}
+
+function sec(inx) {
+  if (bitiş || inx === baslangic) {
+    return;
+  }
+  if (kediSıra === inx) {
+    kedi(inx);
+    oyunuBitir(true);
+  } else {
+    if (!baslangic) {
+      baslangic = inx;
+      kopek(inx);
+    } else {
+      oyunuBitir(false);
     }
-    else {
-        if(!ilkSecim) {
-            ilkSecim = index;
-            kopekGoster(index);
-        } else{
-            oyunuSonlandir(false);
-        }
-    }
+  }
 }
 
-function kediGoster(index){
-    const img = document.getElementById("img"+index);
-    img.src = kediImg;
-    img.style.cursor = "default";
+function kazandin() {
+  kartlarıGizle();
+  document.getElementById("kazandiId").style.display = "block";
 }
 
-function kopekGoster(index){
-    const img = document.getElementById("img"+index);
-    img.src = kopekImg;
-    img.style.cursor = "default";
+function yenildin() {
+  kartlarıGizle();
+  document.getElementById("yenildiId").style.display = "block";
 }
 
-function oyunuSonlandir(kazandi){
-    oyunTamamlandi = true;
-    for(let i=0; i< indeks.length; i++){
-        if(i === kediIndeks){
-            kediGoster(i);
-        } else {
-            kopekGoster(i);
-        }
-    }
-    if(kazandi){
-        kazandiGoster();
-    }else {
-        yenilgiGoster()
-    }
-}
-function kazandiGoster(){
-    hepsiniGizle();
-    document.getElementById("kazandiId").style.display="block";
+function kartlarıGizle() {
+  document.getElementById("alanId").style.display = "none";
+  document.getElementById("kazandiId").style.display = "none";
+  document.getElementById("yenildiId").style.display = "none";
 }
 
-function yenilgiGoster(){
-    hepsiniGizle();
-    document.getElementById("yenildiId").style.display="block";
-}
-function ilkMesajiGoster(){
-    hepsiniGizle();
-    document.getElementById("alanId").style.display="block";
+function arkaKapak(inx) {
+  const foto = document.getElementById("img" + inx);
+  foto.src = arkaKapakFoto;
+  foto.style.cursor = "pointer";
 }
 
-function hepsiniGizle(){
-    document.getElementById("alanId").style.display="none";
-    document.getElementById("kazandiId").style.display="none";
-    document.getElementById("yenildiId").style.display="none";
-}
-
-function arkaKapakGoster(index) {
-    const img = document.getElementById("img"+index);
-    img.src = arkaKapakImg;
-    img.style.cursor = "pointer";
-}
-
-function yeniOyun(){
-
-    ilkSecim = null;
-    oyunTamamlandi = false;
-    kediIndeks = Math.floor(Math.random() * 3);
-    ilkMesajiGoster();
-    arkaKapakGoster(0);
-    arkaKapakGoster(1);
-    arkaKapakGoster(2);
+function yeniden() {
+  baslangic = null;
+  bitiş = false;
+  kediSıra = Math.floor(Math.random() * 3);
+  uyarıGoster();
+  arkaKapak(0);
+  arkaKapak(1);
+  arkaKapak(2);
 }
