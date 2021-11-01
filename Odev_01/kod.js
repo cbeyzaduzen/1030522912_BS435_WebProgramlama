@@ -4,6 +4,7 @@ const kopekFoto = "img/Kopek.jpg";
 const kediFoto = "img/Kedi.jpg";
 const arkaKapakFoto = "img/ArkaKapak.png";
 
+
 let baslangic = null;
 let bitiş = true;
 let kediSıra = 0;
